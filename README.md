@@ -71,7 +71,7 @@ The easiest way to run a three-nodes blockchain network is via docker:
 
 then you can access one node via http://localhost:8080, and another node
 via http://localhost:8000, in your favorite browser. Try to create a new block
-from one node and refresh to check it from another node.
+from one node and refresh the brower to check it from another node.
 
 If there's no docker environment, nodes can be started manually:
 
