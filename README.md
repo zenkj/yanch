@@ -5,6 +5,16 @@ Each blockchain node provides an HTTP server and a websocket server.
 HTTP server is used to interact with the chain, websocket server is used
 for the nodes to communicate with each other in P2P manner.
 
+[gevent](https://github.com/gevent/gevent) is used to power these two
+servers, so there's only one OS thread behind the servers.
+
+[gevent-websocket](https://bitbucket.org/noppo/gevent-websocket) is used
+to implement the websocket server,
+[websocket-client](https://github.com/websocket-client/websocket-client)
+is used as websocket client to connect to peers,
+[flask](http://flask.pocoo.org/) is the microframework to power the HTTP
+application.
+
 ## P2P Message Flow
 Currently there's only one p2p message type: ANNOUNCE message, with a list of block.
 This message is used to broadcast oneself's latest blocks.
