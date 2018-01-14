@@ -13,9 +13,9 @@ On receiving blocks, the receiver can:
    blocks are just beyond his latest one;
  - announce his latest block back to the sender if the received blocks are much later
    than his latest one;
+ - do nothing if his latest block is equal to the received one.
  - announce his later blocks back to the sender if his latest one is later 
    than the received ones;
- - do nothing if his latest block is equal to the received one.
 
 
 ```
@@ -28,21 +28,21 @@ On receiving blocks, the receiver can:
     |                                          |  | then broadcast B1
     |                                          |<-+
     |                                          |
-    |  ANNOUNCE peer1's last block B1          | if B1.index > lastindex:
-    | ---------------------------------------> |--+
+    |                                          | elif B1.index > lastindex:
+    |                                          |--+
     |                                          |  |
     |  ANNOUNCE peer2's last block B2          |  |
-    | <--------------------------------------- |<-+
-    |                                          |
-    |                                          | elif B1.index < lastindex:
-    |                                          |--+
-    |  ANNOUNCE peer2's blocks[B1.index+1:]    |  |
     | <--------------------------------------- |<-+
     |                                          |
     |                                          | elif B1.index == lastindex:
     |                                          |--+
     |                                          |  |  Do Nothing
     |                                          |<-+
+    |                                          |
+    |                                          | elif B1.index < lastindex:
+    |                                          |--+
+    |  ANNOUNCE peer2's blocks[B1.index+1:]    |  |
+    | <--------------------------------------- |<-+
     |                                          |
 ```
 

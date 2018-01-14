@@ -16,39 +16,40 @@ from flask    import Flask, request, render_template, redirect, url_for
 #   
 #   如果一个节点的本地链发生变更，它必须将最新区块广播给自己的所有对端。
 #   
-#   On receiving blocks, the receiver can:
-#    - append received blocks to his chain and broadcast the last one if the received
-#      blocks are just beyond his latest one;
-#    - announce his latest block back to the sender if the received blocks are much later
-#      than his latest one;
-#    - announce his later blocks back to the sender if his latest one is later 
-#      than the received ones;
-#    - do nothing if his latest block is equal to the received one.
+#   收到ANNOUNCE消息时，接收者可以：
+#    - 如果接收到的区块恰好在本地链后面，将其挂载到本地链，然后将最新区块
+#      广播给所有对端；
+#    - 如果接收到的区块比本地链新很多，中间隔着其他区块，将本地最新区块
+#      定向发送回去；
+#    - 如果发送过来的区块和本地链最新区块相同，什么都不做；
+#    - 如果接收到的区块比本地最新区块老，则把比接收的区块新的所有区块发送
+#      回去，帮助对方更新本地链
 #
 #  Peer1                                      Peer2
 #    |                                          |
 #    |                                          |
-#    |  ANNOUNCE peer1's last block B1          | if B1.index == lastindex+1:
+#    |  ANNOUNCE Peer1的最新块B1                | 如果B1.index == lastindex+1:
 #    | ---------------------------------------> |--+
-#    |                                          |  | append B1 to local chain
-#    |                                          |  | then broadcast B1
+#    |                                          |  | 将B1附加到本地快，然后将
+#    |                                          |  | B1广播给Peer2的所有对端，
+#    |                                          |  | 包括Peer1
 #    |                                          |<-+
 #    |                                          |
-#    |  ANNOUNCE peer1's last block B1          | if B1.index > lastindex:
-#    | ---------------------------------------> |--+
+#    |                                          | 如果B1.index > lastindex+1:
+#    |                                          |--+
 #    |                                          |  |
-#    |  ANNOUNCE peer2's last block B2          |  |
+#    |  ANNOUNCE Peer2的最新块B2                |  |
 #    | <--------------------------------------- |<-+
 #    |                                          |
-#    |                                          | elif B1.index < lastindex:
+#    |                                          | 如果B1.index == lastindex:
 #    |                                          |--+
-#    |  ANNOUNCE peer2's blocks[B1.index+1:]    |  |
-#    | <--------------------------------------- |<-+
-#    |                                          |
-#    |                                          | elif B1.index == lastindex:
-#    |                                          |--+
-#    |                                          |  |  Do Nothing
+#    |                                          |  |  什么都不用做
 #    |                                          |<-+
+#    |                                          |
+#    |                                          | 如果B1.index < lastindex:
+#    |                                          |--+
+#    |  ANNOUNCE Peer2在B1.index以后的块给Peer1 |  |
+#    | <--------------------------------------- |<-+
 #    |                                          |
 
 class Block(object):
