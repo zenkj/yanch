@@ -1,6 +1,9 @@
-# yanaivechain
-yet another naive blockchain in python, based on [naivechain](https://github.com/lhartikk/naivechain),
-with several enhancement.
+# yanch
+Yet another naive blockchain, in python.
+
+Each blockchain node provides an HTTP server and a websocket server.
+HTTP server is used to interact with the chain, websocket server is used
+for the nodes to communicate with each other in P2P manner.
 
 ## P2P Message Flow
 Currently there's only one p2p message type: ANNOUNCE message, with a list of block.
@@ -46,7 +49,7 @@ On receiving blocks, the receiver can:
     |                                          |
 ```
 
-## Installation
+## How to Run
 Easiest way to run a three-nodes blockchain network is by docker:
 
 ```
@@ -59,3 +62,21 @@ Easiest way to run a three-nodes blockchain network is by docker:
 then you can access one node via http://localhost:8080, and another node
 via http://localhost:8000, in your favorite browser. Try create a new block
 on one node and refresh to check it on another node.
+
+If there's no docker environment, start nodes one by one:
+
+```
+ git clone https://github.com/zenkj/yanch.git
+ cd yanch
+ pip install -r requirements.txt
+ API_PORT=8080 P2P_PORT=4000 python yanch.py &
+ API_PORT=8090 P2P_PORT=4001 PEERS=localhost:4000 python yanch.py &
+ API_PORT=8000 P2P_PORT=4002 PEERS=localhost:4000 python yanch.py &
+```
+
+virtualenv is recommended, before starting the above nodes:
+
+```
+ virtualenv -p python3 yanchenv
+ source yanchenv/bin/activate
+```
