@@ -1,0 +1,38 @@
+version: "2"
+
+services:
+    yanch1:
+        image: yanch
+        container_name: yanch1
+        networks:
+            - yanchnet
+        ports:
+            - "8080:80"
+        environment:
+            API_PORT: 80
+            P2P_PORT: 4000
+            PEERS: "yanch2:4000,yanch3:4000"
+
+    yanch2:
+        image: yanch
+        container_name: yanch2
+        networks:
+            - yanchnet
+        ports:
+            - "8090:80"
+        environment:
+            API_PORT: 80
+            P2P_PORT: 4000
+
+    yanch3:
+        image: yanch
+        container_name: yanch3
+        networks:
+            - yanchnet
+        ports:
+            - "8000:80"
+        environment:
+            API_PORT: 80
+            P2P_PORT: 4000
+networks:
+    yanchnet:

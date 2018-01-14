@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>yanch - Yet Another Naive blockCHain</title>
+    <style>
+      .block-form {
+        margin: 20px auto;
+      }
+      .block-input {
+        border: rgb(206, 212, 218) 1px solid;
+        border-radius: 4px;
+        font-size: 20px;
+        padding: 5px;
+        margin-right: 15px;
+      }
+      .block-submit {
+        background: rgb(40, 167, 69);
+        border-radius: 4px;
+        font-size: 20px;
+        color: #fff;
+      }
+      .block {
+        background: #eee;
+        margin-bottom: 15px;
+      }
+      td {
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="block-form" action="/mineblock" method="POST">
+      <input class="block-input" type="text" name="block-data" placeholder="请输入新区块内容">
+      <input class="block-submit" type="submit" value="创建新区块">
+    </form>
+    <div>
+      <h2>区块列表</h2>
+      {% for block in blocks %}
+        <table class="block">
+          <tr>
+            <td>顺序号</td>
+            <td>{{ block.index }}</td>
+          </tr>
+          <tr>
+            <td>时间戳</td>
+            <td>{{ block.timestamp }}</td>
+          </tr>
+          <tr>
+            <td>区块哈希值</td>
+            <td>{{ block.hash }}</td>
+          </tr>
+          <tr>
+            <td>区块数据</td>
+            <td>{{ block.data }}</td>
+          </tr>
+          <tr>
+            <td>上一区块哈希值</td>
+            <td>{{ block.lasthash }}</td>
+          </tr>
+        </table>
+      {% endfor %}
+    </div>
+  </body>
+</html>
