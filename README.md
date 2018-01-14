@@ -7,7 +7,7 @@ for the nodes to communicate with each other in P2P manner.
 
 ## P2P Message Flow
 Currently there's only one p2p message type: ANNOUNCE message, with a list of block.
-This message is used to broadcast oneself's current last blocks.
+This message is used to broadcast oneself's latest blocks.
 
 If one mines or receives some blocks, she MUST broadcast the last one.
 
@@ -50,7 +50,7 @@ On receiving blocks, the receiver can:
 ```
 
 ## How to Run
-Easiest way to run a three-nodes blockchain network is by docker:
+The easiest way to run a three-nodes blockchain network is via docker:
 
 ```
  git clone https://github.com/zenkj/yanch.git
@@ -61,9 +61,9 @@ Easiest way to run a three-nodes blockchain network is by docker:
 
 then you can access one node via http://localhost:8080, and another node
 via http://localhost:8000, in your favorite browser. Try create a new block
-on one node and refresh to check it on another node.
+from one node and refresh to check it from another node.
 
-If there's no docker environment, start nodes one by one:
+If there's no docker environment, nodes can be started manually:
 
 ```
  git clone https://github.com/zenkj/yanch.git
